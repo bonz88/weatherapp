@@ -3,13 +3,16 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Sidebar from "./components/Sidebar"
 import Home from "./pages/Home";
 import City from "./pages/City";
-
-const cities = ["london", "paris"]; // make this list dynamic, aka hate it as state in app
+import { UnitProvider } from "./contexts/unitContext";
 
 export default function App() {
   const [currentCity, setCurrentCity] = useState({});
 
+  const handleCurrentLocation = (info) => {
+    setCurrentCity(info);
+  }
   return (
+    <UnitProvider>
     <Router>
       <div className="container flex max-w-screen-xl mx-auto bg-white">
         <div className="left-container flex flex-col w-1/4 border-r-2 border-gray-300">
@@ -32,7 +35,7 @@ export default function App() {
             </div>
           </div>
           <Switch>
-          <Route exact path="/" component={Home} />
+          <Route exact path="/" render={(props) => <Home {...props} handleCurrentLocation={handleCurrentLocation} />} />
           <Route exact path="/city/:cityId" component={City} />
         </Switch>
         </div>
@@ -51,5 +54,6 @@ export default function App() {
        
       </div>
     </Router>
+    </UnitProvider>
   );
 }
