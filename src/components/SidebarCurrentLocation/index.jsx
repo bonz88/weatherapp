@@ -1,16 +1,19 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { getName } from "country-list";
+import { CurrentCityContext } from "../../contexts/currentCityContext";
 
-const SidebarCurrentLocation = (props) => {
+const SidebarCurrentLocation = () => {
+  const { currentCity } = useContext(CurrentCityContext);
   return (
     <ul className="mt-12">
       <li>
         <Link className="flex gap-2 items-center" to="/">
           <div className="p-4 rounded bg-gray-200">
-            {props.currentCity && (
+            {currentCity && (
               <img
                 className="w-5"
-                src={`https://catamphetamine.gitlab.io/country-flag-icons/3x2/${props.currentCity.sys?.country}.svg`}
+                src={`https://catamphetamine.gitlab.io/country-flag-icons/3x2/${currentCity.sys?.country}.svg`}
                 alt="country flag"
               />
             )}
@@ -20,10 +23,8 @@ const SidebarCurrentLocation = (props) => {
               Current location
             </p>
             <p className="text-blue-900 text-xs font-medium leading-normal no-underline">
-              {props.currentCity.sys
-                ? `${getName(props.currentCity.sys.country)} - ${
-                    props.currentCity.name
-                  }`
+              {currentCity.sys
+                ? `${getName(currentCity.sys.country)} - ${currentCity.name}`
                 : "Home"}
             </p>
           </div>

@@ -1,45 +1,43 @@
-import React, { useState } from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import Sidebar from "./components/Sidebar"
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Sidebar from "./components/Sidebar";
 import Home from "./pages/Home";
 import City from "./pages/City";
 import { UnitProvider } from "./contexts/unitContext";
+import { CurrentCityProvider } from "./contexts/currentCityContext";
 
 export default function App() {
-  const [currentCity, setCurrentCity] = useState({});
-
-  const handleCurrentLocation = (info) => {
-    setCurrentCity(info);
-  }
   return (
     <UnitProvider>
-    <Router>
-      <div className="container flex max-w-screen-xl mx-auto bg-white">
-        <div className="left-container flex flex-col w-1/4 border-r-2 border-gray-300">
-          <Sidebar currentCity={currentCity} />
-        </div>
-        <div className="right-container flex flex-col w-3/4">
-          <div className="right-top flex items-center pt-12 pr-20 pb-12 border-b-2 border-gray-300">
-            <div className="right-top-left w-8/12">
-              <h1 className="text-blue-900 text-3xl font-medium leading-10">Here you can find a word
-                  <br /> wide weather forecast</h1>
+      <CurrentCityProvider>
+        <Router>
+          <div className="container flex max-w-screen-xl mx-auto bg-white">
+            <div className="left-container flex flex-col w-1/4 border-r-2 border-gray-300">
+              <Sidebar />
             </div>
-            <div className="right-top-right w-4/12">
-              <h3 className="text-blue-800 text-10px font-medium">
-                  Contented get distrusts certainty nay are frankness concealed
-                  ham. On unaffected resolution on considered of. No thought me
-                  husband or colonel forming effects. End sitting shewing who
-                  saw besides son musical adapted. Contrasted interested eat
-                  alteration pianoforte sympathize was.
-              </h3>
+            <div className="right-container flex flex-col w-3/4">
+              <div className="right-top flex items-center pt-12 pr-20 pb-12 border-b-2 border-gray-300">
+                <div className="right-top-left w-8/12">
+                  <h1 className="text-blue-900 text-3xl font-medium leading-10">
+                    Here you can find a word
+                    <br /> wide weather forecast
+                  </h1>
+                </div>
+                <div className="right-top-right w-4/12">
+                  <h3 className="text-blue-800 text-10px font-medium">
+                    Contented get distrusts certainty nay are frankness
+                    concealed ham. On unaffected resolution on considered of. No
+                    thought me husband or colonel forming effects. End sitting
+                    shewing who saw besides son musical adapted. Contrasted
+                    interested eat alteration pianoforte sympathize was.
+                  </h3>
+                </div>
+              </div>
+              <Switch>
+                <Route exact path="/" render={(props) => <Home {...props} />} />
+                <Route exact path="/city/:cityId" component={City} />
+              </Switch>
             </div>
-          </div>
-          <Switch>
-          <Route exact path="/" render={(props) => <Home {...props} handleCurrentLocation={handleCurrentLocation} />} />
-          <Route exact path="/city/:cityId" component={City} />
-        </Switch>
-        </div>
-        {/* <nav>
+            {/* <nav>
           <ul>
             <li>
               <Link to="/">Home</Link>
@@ -51,9 +49,9 @@ export default function App() {
             ))}
           </ul>
         </nav> */}
-       
-      </div>
-    </Router>
+          </div>
+        </Router>
+      </CurrentCityProvider>
     </UnitProvider>
   );
 }
