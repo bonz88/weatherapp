@@ -7,6 +7,8 @@ const Unit = () => {
   const handleClick = (e) => {
     handleUnit(e.target.name);
   };
+
+  //console.log(handleUnit);
   return (
     <div className="flex gap-2 mt-auto mb-2 ml-8">
       <button
