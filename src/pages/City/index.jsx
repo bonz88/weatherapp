@@ -1,15 +1,18 @@
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import getWeatherLocation from "../../utils/getWeatherLocation";
 import getUnsplash from "../../utils/getUnsplash";
 import WeatherCast from "../../components/WeatherCast";
 import { useContext } from "react";
 import { UnitContext } from "../../contexts/unitContext";
 
-const City = ({ match }) => {
+const City = () => {
   const [weather, setWeather] = useState({});
   const [image, setImage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+
+  const { cityId } = useParams();
 
   const { unit } = useContext(UnitContext);
 
@@ -19,7 +22,7 @@ const City = ({ match }) => {
   const fetchWeatherData = async () => {
     try {
       setIsLoading(true);
-      const weather = await getWeatherLocation(match.params.cityId, unit);
+      const weather = await getWeatherLocation(cityId, unit);
       setWeather(weather);
       const weatherImg = await getUnsplash(weather.weather[0].description);
       setImage(weatherImg ? weatherImg : defaultImg);
@@ -33,7 +36,7 @@ const City = ({ match }) => {
   useEffect(() => {
     setImage("");
     fetchWeatherData();
-  }, [match.params.cityId, unit]);
+  }, [cityId, unit]);
 
   return (
     <div>

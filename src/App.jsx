@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Sidebar from "./components/Sidebar";
 import Home from "./pages/Home";
 import City from "./pages/City";
@@ -32,10 +32,10 @@ export default function App() {
                   </h3>
                 </div>
               </div>
-              <Switch>
-                <Route exact path="/" render={(props) => <Home {...props} />} />
-                <Route exact path="/city/:cityId" component={City} />
-              </Switch>
+              <Routes>
+                <Route exact path="/" element={<Home />} />
+                <Route exact path="/city/:cityId" element={<City />} />
+              </Routes>
             </div>
             {/* <nav>
           <ul>
