@@ -15,16 +15,19 @@ const Sidebar = () => {
 
   const { currentCity } = useContext(CurrentCityContext);
 
-  const handleSubmit = async(value) => {
+  const apiKey = import.meta.env.VITE_API_KEY;
+
+  const handleSubmit = async (value) => {
     const trimmedValue = value.trim();
-    if(cities.find((city) => city === trimmedValue)) return;
+    if (cities.find((city) => city === trimmedValue)) return;
 
     try {
       setIsLoading(true);
-      await axios(`https://api.openweathermap.org/data/2.5/weather?q=${trimmedValue}&appid=1fb24a4d9df7fe564611dea433db08b0`);
+      await axios(
+        `https://api.openweathermap.org/data/2.5/weather?q=${trimmedValue}&appid=${apiKey}`
+      );
       setCities([...cities, trimmedValue]);
       setIsLoading(false);
-
     } catch (err) {
       setError(err.message);
       setIsLoading(false);
@@ -32,7 +35,7 @@ const Sidebar = () => {
         setError("");
       }, 5000);
     }
-  }
+  };
 
   const handleDelete = (city) => {
     const newCitiesList = cities.filter((cityWeather) => cityWeather !== city);
@@ -44,7 +47,7 @@ const Sidebar = () => {
       <nav className="px-8">
         <Logo />
         <SidebarCurrentLocation currentCity={currentCity} />
-        <InputCities handleSubmit={handleSubmit}/>
+        <InputCities handleSubmit={handleSubmit} />
         {isLoading && <div>searching for the city...</div>}
         {error && <div>{error}</div>}
         <ul>

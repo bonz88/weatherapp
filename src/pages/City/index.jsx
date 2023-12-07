@@ -15,6 +15,7 @@ const City = () => {
   const { cityId } = useParams();
 
   const { unit } = useContext(UnitContext);
+  const apiKey = import.meta.env.VITE_API_KEY;
 
   const defaultImg =
     "https://images.unsplash.com/photo-1499346030926-9a72daac6c63?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3270&q=80";
@@ -22,7 +23,7 @@ const City = () => {
   const fetchWeatherData = async () => {
     try {
       setIsLoading(true);
-      const weather = await getWeatherLocation(cityId, unit);
+      const weather = await getWeatherLocation(cityId, unit, apiKey);
       setWeather(weather);
       const weatherImg = await getUnsplash(weather.weather[0].description);
       setImage(weatherImg ? weatherImg : defaultImg);

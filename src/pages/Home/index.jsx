@@ -15,6 +15,8 @@ const Home = () => {
   const { unit } = useContext(UnitContext);
   const { handleCurrentLocation } = useContext(CurrentCityContext);
 
+  const apiKey = import.meta.env.VITE_API_KEY;
+
   const defaultImg =
     "https://images.unsplash.com/photo-1499346030926-9a72daac6c63?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3270&q=80";
 
@@ -26,10 +28,14 @@ const Home = () => {
     try {
       setIsLoading(true);
       const position = await axios(
-        `https://api.openweathermap.org/data/2.5/weather?lat=${pos.coords.latitude}&lon=${pos.coords.longitude}&appid=1fb24a4d9df7fe564611dea433db08b0`
+        `https://api.openweathermap.org/data/2.5/weather?lat=${pos.coords.latitude}&lon=${pos.coords.longitude}&appid=${apiKey}`
       );
       setIsLoading(false);
-      const weather = await getWeatherLocation(position.data.name, unit);
+      const weather = await getWeatherLocation(
+        position.data.name,
+        unit,
+        apiKey
+      );
       setWeather(weather);
       handleCurrentLocation(weather);
       const weatherImg = await getUnsplash(weather.weather[0].description);
@@ -47,8 +53,6 @@ const Home = () => {
   const err = () => {
     setError("Unable to retrieve your location");
   };
-
-  console.log(weather);
 
   return (
     <>
