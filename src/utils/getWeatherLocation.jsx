@@ -3,7 +3,7 @@ import axios from "axios";
 const getWeatherLocation = async (value, unit, api) => {
   try {
     const { data } = await axios(
-      `https://api.openweathermap.org/data/2.5/weather?q=${value}&appid=${api}0&units=${unit}`
+      `https://api.openweathermap.org/data/2.5/weather?q=${value}&appid=${api}&units=${unit}`
     );
     return data;
   } catch (err) {
