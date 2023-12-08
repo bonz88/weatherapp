@@ -8,12 +8,14 @@ const ListCities = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
+  const apiKey = import.meta.env.VITE_API_KEY;
+
   const { unit } = useContext(UnitContext);
 
   const fetchWeatherData = async () => {
     try {
       setIsLoading(true);
-      const weather = await getWeatherLocation(props.city, unit);
+      const weather = await getWeatherLocation(props.city, unit, apiKey);
       setWeather(weather);
       setIsLoading(false);
     } catch (err) {
